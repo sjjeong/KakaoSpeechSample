@@ -12,15 +12,22 @@ import com.kakao.sdk.newtoneapi.TextToSpeechListener
 import com.kakao.sdk.newtoneapi.TextToSpeechManager
 import kotlinx.coroutines.launch
 
-fun kakaoTts(activity: ComponentActivity) =
-    lazy { KakaoTts(activity, activity.application) }
+fun kakaoTts(
+    activity: ComponentActivity,
+    kakaoTtsSpeechInfo: KakaoTtsSpeechInfo = KakaoTtsSpeechInfo(),
+) =
+    lazy { KakaoTts(activity, activity.application, kakaoTtsSpeechInfo) }
 
-fun kakaoTts(fragment: Fragment) =
-    lazy { KakaoTts(fragment, fragment.requireContext()) }
+fun kakaoTts(
+    fragment: Fragment,
+    kakaoTtsSpeechInfo: KakaoTtsSpeechInfo = KakaoTtsSpeechInfo(),
+) =
+    lazy { KakaoTts(fragment, fragment.requireContext(), kakaoTtsSpeechInfo) }
 
 class KakaoTts internal constructor(
     private val lifecycleOwner: LifecycleOwner,
     private val context: Context,
+    private val kakaoTtsSpeechInfo: KakaoTtsSpeechInfo,
 ) {
 
     var onFinishedListener: (() -> Unit)? = null
@@ -43,6 +50,11 @@ class KakaoTts internal constructor(
 
     private val client = TextToSpeechClient.Builder()
         .setListener(internalListener)
+        .apply {
+            kakaoTtsSpeechInfo.mode.mode.let(this::setSpeechMode)
+            kakaoTtsSpeechInfo.voice.voice.let(this::setSpeechVoice)
+            kakaoTtsSpeechInfo.speed.let(this::setSpeechSpeed)
+        }
         .build()
 
     var speechText: String
