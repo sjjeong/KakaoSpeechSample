@@ -4,13 +4,16 @@ import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.isVisible
 import com.dino.kakaospeechsample.databinding.ActivityMainBinding
+import com.dino.kakaospeechsample.kakaotts.KakaoTtsSpeechVoice
 import com.dino.kakaospeechsample.kakaotts.kakaoTts
 
 class MainActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityMainBinding
 
-    private val kakaoTts by kakaoTts(this)
+    private val kakaoTts by kakaoTts(this) {
+        voice = KakaoTtsSpeechVoice.MAN_READ_CALM
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

@@ -19,10 +19,26 @@ fun kakaoTts(
     lazy { KakaoTts(activity, activity.application, kakaoTtsSpeechInfo) }
 
 fun kakaoTts(
+    activity: ComponentActivity,
+    builder: KakaoTtsSpeechInfo.Builder.() -> Unit,
+): Lazy<KakaoTts> {
+    val kakaoTtsSpeechInfo = KakaoTtsSpeechInfo.Builder().apply(builder).build()
+    return kakaoTts(activity, kakaoTtsSpeechInfo)
+}
+
+fun kakaoTts(
     fragment: Fragment,
     kakaoTtsSpeechInfo: KakaoTtsSpeechInfo = KakaoTtsSpeechInfo(),
 ) =
     lazy { KakaoTts(fragment, fragment.requireContext(), kakaoTtsSpeechInfo) }
+
+fun kakaoTts(
+    fragment: Fragment,
+    builder: KakaoTtsSpeechInfo.Builder.() -> Unit,
+): Lazy<KakaoTts> {
+    val kakaoTtsSpeechInfo = KakaoTtsSpeechInfo.Builder().apply(builder).build()
+    return kakaoTts(fragment, kakaoTtsSpeechInfo)
+}
 
 class KakaoTts internal constructor(
     private val lifecycleOwner: LifecycleOwner,
